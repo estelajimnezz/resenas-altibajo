@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Krona+One&family=Hubot+Sans:wght@400&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Hubot+Sans:wght@400&display=swap');
     
     body {
       margin: 0;
@@ -52,18 +52,17 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    .autor {
-      font-family: 'Krona One', sans-serif;
-      font-weight: 400;
-      font-size: 1.5rem;
-      color: #1B1E1B;
-      margin: 0 0 4px 0;
-      width: 100%;
+    .logo-empresa {
+      height: 45px;
+      width: auto;
+      max-width: 200px;
+      object-fit: contain;
+      margin: 0 0 12px 0;
     }
 
     .estrellas {
       font-size: 1.5rem;
-      color: #0f5c4a;
+      color: #425E46;
       margin: 0 0 4px 0;
       width: 100%;
     }
@@ -107,7 +106,7 @@
     }
 
     .slider-btn:hover {
-      background: #0f5c4a;
+      background: #425E46;
     }
 
     .slider-btn svg {
@@ -122,6 +121,9 @@
     @media (max-width: 600px) {
       .slider-container {
         padding: 20px 45px;
+      }
+      .logo-empresa {
+        height: 35px;
       }
       .slider-btn {
         width: 34px;
@@ -186,7 +188,7 @@
   });
 
   async function cargarResenas() {
-    const urlJSON = 'https://raw.githubusercontent.com/estelajimnezz/resenas-altibajo/refs/heads/main/resenas-altibajo.json?v=' + new Date().getTime();
+    const urlJSON = 'https://raw.githubusercontent.com/estelajimnezz/resenas-irenepsicologia/refs/heads/main/resenas-irenepsicologia.json?v=' + new Date().getTime();
     const contenedor = document.getElementById('slides-wrapper');
     
     try {
@@ -200,7 +202,7 @@
         slide.className = index === 0 ? 'slide active' : 'slide';
         
         slide.innerHTML = `
-          <div class="autor">${resena.autor}</div>
+          <img src="${resena.logo}" class="logo-empresa" alt="Logo de la empresa">
           <div class="estrellas">${resena.estrellas}</div>
           <div class="plataforma">${resena.plataforma}</div>
           <div class="texto">${resena.texto}</div>
