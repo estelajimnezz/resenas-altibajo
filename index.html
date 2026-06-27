@@ -223,7 +223,7 @@
       
       resenas.forEach((resena, index) => {
         let htmlTexto = '';
-        const palabras = resena.texto.split(/\\s+/);
+        const palabras = resena.texto.split(' ');
         
         if (palabras.length > 50) {
           const textoCorto = palabras.slice(0, 50).join(' ') + '...';
