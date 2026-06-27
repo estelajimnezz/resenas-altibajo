@@ -86,15 +86,16 @@
       width: 100%;
     }
 
-    .btn-leer-mas {
+    .btn-leer-mas, .btn-mostrar-menos {
       color: #0F5C4A;
       font-weight: 600;
       cursor: pointer;
       margin-left: 5px;
       transition: opacity 0.3s ease;
+      white-space: nowrap;
     }
 
-    .btn-leer-mas:hover {
+    .btn-leer-mas:hover, .btn-mostrar-menos:hover {
       opacity: 0.7;
     }
 
@@ -206,7 +207,11 @@
       const contenedorTexto = e.target.closest('.texto');
       contenedorTexto.querySelector('.texto-visible').style.display = 'none';
       contenedorTexto.querySelector('.texto-oculto').style.display = 'inline';
-      e.target.style.display = 'none';
+      setTimeout(avisarAltura, 50);
+    } else if (e.target.classList.contains('btn-mostrar-menos')) {
+      const contenedorTexto = e.target.closest('.texto');
+      contenedorTexto.querySelector('.texto-oculto').style.display = 'none';
+      contenedorTexto.querySelector('.texto-visible').style.display = 'inline';
       setTimeout(avisarAltura, 50);
     }
   });
@@ -225,11 +230,10 @@
         let htmlTexto = '';
         const palabras = resena.texto.split(' ');
         
-        if (palabras.length > 50) {
-          const textoCorto = palabras.slice(0, 50).join(' ') + '...';
-          htmlTexto = '<span class="texto-visible">' + textoCorto + '</span>' +
-                      '<span class="texto-oculto" style="display:none;">' + resena.texto + '</span>' +
-                      '<span class="btn-leer-mas">Leer más</span>';
+        if (palabras.length > 30) {
+          const textoCorto = palabras.slice(0, 30).join(' ') + '...';
+          htmlTexto = '<span class="texto-visible">' + textoCorto + ' <span class="btn-leer-mas">Leer más</span></span>' +
+                      '<span class="texto-oculto" style="display:none;">' + resena.texto + ' <span class="btn-mostrar-menos">Mostrar menos</span></span>';
         } else {
           htmlTexto = resena.texto;
         }
