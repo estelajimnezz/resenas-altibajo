@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Hubot+Sans:wght@400&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Hubot+Sans:wght@400;600&display=swap');
     
     body {
       margin: 0;
@@ -84,6 +84,18 @@
       line-height: 1.5;
       margin: 0;
       width: 100%;
+    }
+
+    .btn-leer-mas {
+      color: #0F5C4A;
+      font-weight: 600;
+      cursor: pointer;
+      margin-left: 5px;
+      transition: opacity 0.3s ease;
+    }
+
+    .btn-leer-mas:hover {
+      opacity: 0.7;
     }
 
     .slider-btn {
@@ -189,6 +201,16 @@
     showSlide(currentSlide);
   });
 
+  document.getElementById('slides-wrapper').addEventListener('click', function(e) {
+    if (e.target.classList.contains('btn-leer-mas')) {
+      const contenedorTexto = e.target.closest('.texto');
+      contenedorTexto.querySelector('.texto-visible').style.display = 'none';
+      contenedorTexto.querySelector('.texto-oculto').style.display = 'inline';
+      e.target.style.display = 'none';
+      setTimeout(avisarAltura, 50);
+    }
+  });
+
   async function cargarResenas() {
     const urlJSON = 'https://raw.githubusercontent.com/estelajimnezz/resenas-altibajo/refs/heads/main/resenas-altibajo.json?v=' + new Date().getTime();
     const contenedor = document.getElementById('slides-wrapper');
@@ -200,15 +222,25 @@
       contenedor.innerHTML = '';
       
       resenas.forEach((resena, index) => {
+        let htmlTexto = '';
+        const palabras = resena.texto.split(/\\s+/);
+        
+        if (palabras.length > 50) {
+          const textoCorto = palabras.slice(0, 50).join(' ') + '...';
+          htmlTexto = '<span class="texto-visible">' + textoCorto + '</span>' +
+                      '<span class="texto-oculto" style="display:none;">' + resena.texto + '</span>' +
+                      '<span class="btn-leer-mas">Leer más</span>';
+        } else {
+          htmlTexto = resena.texto;
+        }
+
         const slide = document.createElement('div');
         slide.className = index === 0 ? 'slide active' : 'slide';
         
-        slide.innerHTML = `
-          <img src="${resena.logo}" class="logo-empresa" alt="Logo de la empresa">
-          <div class="estrellas">${resena.estrellas}</div>
-          <div class="plataforma">${resena.plataforma}</div>
-          <div class="texto">${resena.texto}</div>
-        `;
+        slide.innerHTML = '<img src="' + resena.logo + '" class="logo-empresa" alt="Logo de la empresa">' +
+                          '<div class="estrellas">' + resena.estrellas + '</div>' +
+                          '<div class="plataforma">' + resena.plataforma + '</div>' +
+                          '<div class="texto">' + htmlTexto + '</div>';
         
         contenedor.appendChild(slide);
       });
